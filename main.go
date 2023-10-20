@@ -30,7 +30,7 @@ func (s *dataNodeServer) RegistrarNombre(ctx context.Context, registro *pb.Regis
 	defer file.Close()
 
 	log.Printf("Agregando a txt: %s %s %s", registro.Id, registro.Nombre, registro.Apellido)
-	data := registro.Id + " " + registro.Nombre + " " + registro.Apellido + "\\n"
+	data := registro.Id + " " + registro.Nombre + " " + registro.Apellido + " \n"
 	_, err = file.WriteString(data)
 	if err != nil {
 		log.Fatalf("Error al escribir en el archivo: %v", err)
@@ -74,6 +74,7 @@ func (s *dataNodeServer) Solicitud_Info_DataNode(ctx context.Context, idList *pb
 		log.Printf("ID: %s, Nombre: %s, Apellido: %s", id, datos.Nombre, datos.Apellido)
 	}
 
+	log.Println("idList/ListaId: %s", idList.ListaId)
 	for _, id := range idList.ListaId {
 		log.Printf("Id siendo revisado: %s", id)
 		if persona, ok := personaMap[id]; ok {
