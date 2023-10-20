@@ -7,7 +7,7 @@ DOCKERFILE = Dockerfile
 build:
 	sudo docker build -t $(IMAGE_NAME) -f $(DOCKERFILE) .
 
-docker-regional:
+docker-datanode:
 	sudo docker run -p 8080:80 $(CONTAINER_NAME)
 stop:
 	sudo docker stop $(CONTAINER_NAME)
