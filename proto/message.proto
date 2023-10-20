@@ -30,3 +30,13 @@ message Id{
 message Recepcion{
     string ok = 1;
 }
+
+message Datos {
+    string nombre = 1;
+    string apellido = 2;
+    string estado = 3;
+}
+  
+message Estado_Persona{
+    string estado = 1;
+}
