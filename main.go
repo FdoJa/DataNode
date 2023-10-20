@@ -29,6 +29,7 @@ func (s *dataNodeServer) RegistrarNombre(ctx context.Context, registro *pb.Regis
 	}
 	defer file.Close()
 
+	log.Printf("Agregando a txt: %s %s %s", registro.Id, registro.Nombre, registro.Apellido)
 	data := registro.Id + " " + registro.Nombre + " " + registro.Apellido + "\\n"
 	_, err = file.WriteString(data)
 	if err != nil {
