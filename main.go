@@ -68,7 +68,14 @@ func (s *dataNodeServer) Solicitud_Info_DataNode(ctx context.Context, idList *pb
 	}
 
 	var listaDatos []*pb.Datos_DataNode
+
+	log.Println("Personas en el mapa:")
+	for id, datos := range personaMap {
+		log.Printf("ID: %s, Nombre: %s, Apellido: %s", id, datos.Nombre, datos.Apellido)
+	}
+
 	for _, id := range idList.ListaId {
+		log.Printf("Id siendo revisado: %s", id)
 		if persona, ok := personaMap[id]; ok {
 			log.Printf("Persona agregada: %s %s %s", id, persona.Nombre, persona.Apellido)
 			listaDatos = append(listaDatos, persona)
