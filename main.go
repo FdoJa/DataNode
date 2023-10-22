@@ -8,11 +8,13 @@ import (
 	"net"
 	"os"
 	"strings"
+	"sync"
 
 	pb "github.com/FdoJa/DataNode1/proto"
 	"google.golang.org/grpc"
 )
 
+var lock = &sync.RWMutex{}
 var err error
 
 type dataNodeServer struct {
@@ -20,6 +22,9 @@ type dataNodeServer struct {
 }
 
 func (s *dataNodeServer) RegistrarNombre(ctx context.Context, registro *pb.Registro) (*pb.Recepcion, error) {
+	lock.Lock()
+	defer lock.Unlock()
+
 	filePath := "/app/Data.txt"
 	var file *os.File
 
