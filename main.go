@@ -25,6 +25,9 @@ func (s *dataNodeServer) RegistrarNombre(ctx context.Context, registro *pb.Regis
 	lock.Lock()
 	defer lock.Unlock()
 
+	// Mensaje recibido
+	log.Printf("Mensaje recibido desde OMS: %s %s %s", registro.Id, registro.Nombre, registro.Apellido)
+
 	filePath := "/app/Data.txt"
 	var file *os.File
 
@@ -41,12 +44,17 @@ func (s *dataNodeServer) RegistrarNombre(ctx context.Context, registro *pb.Regis
 		log.Fatalf("Error al escribir en el archivo: %v", err)
 	}
 
+	// Mensaje de respuesta
+	log.Printf("Respondiendo a OMS: OK")
 	return &pb.Recepcion{
 		Ok: "OK",
 	}, nil
 }
 
 func (s *dataNodeServer) Solicitud_Info_DataNode(ctx context.Context, idList *pb.Id) (*pb.Lista_Datos_DataNode, error) {
+	// Mensaje recibido
+	log.Printf("Mensaje recibido desde OMS: %v", idList)
+
 	filePath := "/app/Data.txt"
 	var file *os.File
 
@@ -79,14 +87,15 @@ func (s *dataNodeServer) Solicitud_Info_DataNode(ctx context.Context, idList *pb
 		log.Printf("ID: %s, Nombre: %s, Apellido: %s", id, datos.Nombre, datos.Apellido)
 	}
 
-	log.Println("idList/ListaId: %s", idList.ListaId)
 	for _, id := range idList.ListaId {
-		log.Printf("Id siendo revisado: %s", id)
 		if persona, ok := personaMap[id]; ok {
 			log.Printf("Persona agregada: %s %s %s", id, persona.Nombre, persona.Apellido)
 			listaDatos = append(listaDatos, persona)
 		}
 	}
+
+	// Mensaje de respuesta
+	log.Printf("Respondiendo a OMS: %v", listaDatos)
 
 	response := &pb.Lista_Datos_DataNode{
 		ListaDatos_DataNode: listaDatos,
